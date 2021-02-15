@@ -103,9 +103,9 @@ public class FirstTest {
                      15);
 
             waitForElementAndClick(
-                By.xpath("/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.widget.LinearLayout[1]/android.widget.FrameLayout[1]/android.view.ViewGroup/android.widget.ImageButton"),
-                "Cannot find X to cancel search",
-                5);
+                     By.id("org.wikipedia:id/search_close_btn"),
+                    "Cannot find X to cancel search",
+                    5);
 
             waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
