@@ -72,6 +72,7 @@ public class FirstTest {
                 "X is still present of the page",
                 5
         );
+
     }
 
 
@@ -85,17 +86,18 @@ public class FirstTest {
 
     @Test
     public void  TestSearchAndCancel() {
-        waitForElementAndClick(
+          waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find Search Wikipedia",
                 5);
-     waitForElementAndSendKeys(
+
+          waitForElementAndSendKeys(
              By.id("org.wikipedia:id/search_container"),
              "Russia",
              "Cannot find Search input",
              5);
 
-             waitForElementPresent(
+            waitForElementPresent(
                      By.id("org.wikipedia:id/page_list_item_container"),
                      "Нет результатов поиска по данному запросу",
                      15);
@@ -105,12 +107,37 @@ public class FirstTest {
                 "Cannot find X to cancel search",
                 5);
 
-        waitForElementAndClick(
+            waitForElementAndClick(
                 By.id("org.wikipedia:id/search_container"),
                 "Cannot find Search Wikipedia",
                 5);
 
+
     }
+
+ @Test
+ public void  TestSearchJava() {
+     waitForElementAndClick(
+             By.id("org.wikipedia:id/search_container"),
+             "Cannot find Search Wikipedia",
+             5);
+     waitForElementAndSendKeys(
+             By.id("org.wikipedia:id/search_container"),
+             "Java",
+             "Cannot find Search input",
+             15);
+
+    WebElement result =  waitForElementPresent(
+            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Java']"),
+             "Нет результатов поиска по данному запросу",
+             15);
+    String result_text = result.getText();
+
+    Assert.assertEquals("Не все результаты поиска первой страницы содержат слово Java",
+                        "Java",result_text);
+
+ }
+
 
 
 
@@ -158,6 +185,18 @@ public class FirstTest {
         String actual_text = actual_result.getAttribute("text");
         String expected_text = text;
         Assert.assertEquals("Ожидаемый результат не совпадает с текущим", expected_text, actual_text);
+        return expected_text;
+    }
+
+    private String assertElementTrue(By by, String text, String error_message, long timeoutInSeconds)
+    {
+        WebElement actual_result = waitForElementPresent(
+                by,
+                error_message,
+                5);
+        String actual_text = actual_result.getAttribute("text");
+        String expected_text = text;
+        Assert.assertTrue(expected_text==actual_text);
         return expected_text;
     }
 
