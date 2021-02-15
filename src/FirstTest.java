@@ -36,9 +36,8 @@ public class FirstTest {
         driver.quit();
     }
 
-   @Test
-    public void firstTest()
-    {
+    @Test
+    public void firstTest() {
         waitForElementAndClick(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Cannot find Search Wikipedia",
@@ -77,7 +76,7 @@ public class FirstTest {
 
 
     @Test
-    public void  TestAssertElementHasText() {
+    public void TestAssertElementHasText() {
         assertElementHasText(
                 By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Search Wikipedia",
@@ -86,61 +85,59 @@ public class FirstTest {
     }
 
     @Test
-    public void  TestSearchAndCancel() {
-          waitForElementAndClick(
-                  By.id("org.wikipedia:id/search_container"),
-                  "Cannot find Search Wikipedia",
-                  5);
+    public void TestSearchAndCancel() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find Search Wikipedia",
+                5);
 
-          waitForElementAndSendKeys(
-                  By.id("org.wikipedia:id/search_container"),
-                  "Russia",
-                  "Cannot find Search input",
-                  5);
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_container"),
+                "Russia",
+                "Cannot find Search input",
+                5);
 
-          waitForElementPresent(
-                  By.id("org.wikipedia:id/page_list_item_container"),
-                  "No search results",
-                  15);
+        waitForElementPresent(
+                By.id("org.wikipedia:id/page_list_item_container"),
+                "No search results",
+                15);
 
-          waitForElementAndClick(
-                  By.id("org.wikipedia:id/search_close_btn"),
-                  "Cannot find X to cancel search",
-                  5);
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_close_btn"),
+                "Cannot find X to cancel search",
+                5);
 
-          waitForElementAndClick(
-                  By.id("org.wikipedia:id/search_container"),
-                  "Cannot find Search Wikipedia",
-                  5);
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find Search Wikipedia",
+                5);
 
 
     }
 
- @Test
- public void  TestSearchJava() {
-     waitForElementAndClick(
-             By.id("org.wikipedia:id/search_container"),
-             "Cannot find Search Wikipedia",
-             5);
-     waitForElementAndSendKeys(
-             By.id("org.wikipedia:id/search_container"),
-             "Java",
-             "Cannot find Search input",
-             15);
+    @Test
+    public void TestSearchJava() {
+        waitForElementAndClick(
+                By.id("org.wikipedia:id/search_container"),
+                "Cannot find Search Wikipedia",
+                5);
+        waitForElementAndSendKeys(
+                By.id("org.wikipedia:id/search_container"),
+                "Java",
+                "Cannot find Search input",
+                15);
 
-    WebElement result =  waitForElementPresent(
-            By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Java']"),
-            "No search results",
-            15);
+        WebElement result = waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Java']"),
+                "No search results",
+                15);
 
-    String result_text = result.getText();
+        String result_text = result.getText();
 
-    Assert.assertEquals("Not all search results contain the word 'Java'",
-                        "Java",result_text);
+        Assert.assertEquals("Not all search results contain the word 'Java'",
+                "Java", result_text);
 
- }
-
-
+    }
 
 
     private WebElement waitForElementPresent(By by, String error_message, long timeoutInSeconds) {
@@ -166,7 +163,6 @@ public class FirstTest {
     }
 
 
-
     private boolean waitForElementNotPresent(By by, String error_message, long timeoutInSeconds) {
         WebDriverWait wait = new WebDriverWait(driver, timeoutInSeconds);
         wait.withMessage(error_message + "\n");
@@ -176,10 +172,7 @@ public class FirstTest {
     }
 
 
-
-
-    private String assertElementHasText(By by, String text, String error_message, long timeoutInSeconds)
-    {
+    private String assertElementHasText(By by, String text, String error_message, long timeoutInSeconds) {
         WebElement actual_result = waitForElementPresent(
                 by,
                 error_message,
@@ -187,18 +180,6 @@ public class FirstTest {
         String actual_text = actual_result.getAttribute("text");
         String expected_text = text;
         Assert.assertEquals("Ожидаемый результат не совпадает с текущим", expected_text, actual_text);
-        return expected_text;
-    }
-
-    private String assertElementTrue(By by, String text, String error_message, long timeoutInSeconds)
-    {
-        WebElement actual_result = waitForElementPresent(
-                by,
-                error_message,
-                5);
-        String actual_text = actual_result.getAttribute("text");
-        String expected_text = text;
-        Assert.assertTrue(expected_text==actual_text);
         return expected_text;
     }
 
