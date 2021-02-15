@@ -78,39 +78,40 @@ public class FirstTest {
 
     @Test
     public void  TestAssertElementHasText() {
-        assertElementHasText(By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+        assertElementHasText(
+                By.xpath("//*[contains(@text,'Search Wikipedia')]"),
                 "Search Wikipedia",
-                "Текст Search Wikipedia не найден в строке поиска",
+                "The text 'Search Wikipedia' was not found in the search bar",
                 10);
     }
 
     @Test
     public void  TestSearchAndCancel() {
           waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find Search Wikipedia",
-                5);
+                  By.id("org.wikipedia:id/search_container"),
+                  "Cannot find Search Wikipedia",
+                  5);
 
           waitForElementAndSendKeys(
-             By.id("org.wikipedia:id/search_container"),
-             "Russia",
-             "Cannot find Search input",
-             5);
+                  By.id("org.wikipedia:id/search_container"),
+                  "Russia",
+                  "Cannot find Search input",
+                  5);
 
-            waitForElementPresent(
-                     By.id("org.wikipedia:id/page_list_item_container"),
-                     "Нет результатов поиска по данному запросу",
-                     15);
+          waitForElementPresent(
+                  By.id("org.wikipedia:id/page_list_item_container"),
+                  "No search results",
+                  15);
 
-            waitForElementAndClick(
-                     By.id("org.wikipedia:id/search_close_btn"),
-                    "Cannot find X to cancel search",
-                    5);
+          waitForElementAndClick(
+                  By.id("org.wikipedia:id/search_close_btn"),
+                  "Cannot find X to cancel search",
+                  5);
 
-            waitForElementAndClick(
-                By.id("org.wikipedia:id/search_container"),
-                "Cannot find Search Wikipedia",
-                5);
+          waitForElementAndClick(
+                  By.id("org.wikipedia:id/search_container"),
+                  "Cannot find Search Wikipedia",
+                  5);
 
 
     }
@@ -129,11 +130,12 @@ public class FirstTest {
 
     WebElement result =  waitForElementPresent(
             By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_container']//*[@text='Java']"),
-             "Нет результатов поиска по данному запросу",
-             15);
+            "No search results",
+            15);
+
     String result_text = result.getText();
 
-    Assert.assertEquals("Не все результаты поиска первой страницы содержат слово Java",
+    Assert.assertEquals("Not all search results contain the word 'Java'",
                         "Java",result_text);
 
  }
