@@ -586,7 +586,7 @@ public class FirstTest {
 
         assertElementPresent(
                 By.id("org.wikipedia:id/view_page_title_text"),
-                "Cannot found element"
+                "Cannot find element"
         );
 
     }
