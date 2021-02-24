@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -31,6 +32,7 @@ public class FirstTest {
         capabilities.setCapability("app", "/Users/ksenia/Desktop/AppiumAutomation/apks/org.wikipedia.apk");
 
         driver = new AndroidDriver(new URL("http://127.0.0.1:4723/wd/hub"), capabilities);
+        driver.rotate(ScreenOrientation.PORTRAIT);
 
     }
 
@@ -384,6 +386,96 @@ public class FirstTest {
         );
     }
 
+
+    @Test
+    public void testChangeScreenOrientationSearchResults()
+    {
+
+        waitForElementAndClick(
+                By.xpath(("//*[contains(@text, 'Search Wikipedia')]")),
+                "Cannot find 'Search Wikipedia' input'",
+                5
+        );
+
+        String search_line = "Appium";
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                search_line,
+                "Cannot find Search input",
+                10
+        );
+
+        waitForElementAndClick(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
+                "Cannot find title Appium",
+                10
+        );
+
+        String title_before_rotation = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find title of article",
+                15
+                );
+        driver.rotate(ScreenOrientation.LANDSCAPE);
+
+        String title_after_rotation = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find title of article",
+                15
+        );
+
+        Assert.assertEquals("Article title have been change after screen rotation",
+                title_before_rotation,
+                title_after_rotation
+        );
+        driver.rotate(ScreenOrientation.PORTRAIT);
+
+        String title_after_second_rotation = waitForElementAndGetAttribute(
+                By.id("org.wikipedia:id/view_page_title_text"),
+                "text",
+                "Cannot find title of article",
+                15
+        );
+
+        Assert.assertEquals("Article title have been change after screen rotation",
+                title_before_rotation,
+                title_after_second_rotation
+        );
+
+    }
+
+
+    @Test
+    public void testCheckSearchArticleInBackground ()
+    {   waitForElementAndClick(
+            By.xpath("//*[contains(@text,'Search Wikipedia')]"),
+            "Cannot find Search Wikipedia",
+            5);
+
+        waitForElementAndSendKeys(
+                By.xpath("//*[contains(@text,'Search…')]"),
+                "Appium",
+                "Cannot find Search input",
+                10);
+
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
+                "Cannot find title Appium",
+                10);
+
+    driver.runAppInBackground(2);
+
+        waitForElementPresent(
+                By.xpath("//*[@resource-id='org.wikipedia:id/page_list_item_title'][@text='Appium']"),
+                "Cannot find article after returning in background",
+                10);
+
+    }
+
+
     @Test
     public void workHomeEx5() {
         //кликаем в строку ввода
@@ -558,6 +650,8 @@ public class FirstTest {
 
     }
 
+
+
     @Test
     public void workHomeEx6()
     {
@@ -718,5 +812,11 @@ public class FirstTest {
        }
 
 
+    }
+
+    private String waitForElementAndGetAttribute (By by, String attribute, String error_message, long timeoutInSeconds)
+    {
+       WebElement element = waitForElementPresent(by,error_message,timeoutInSeconds);
+       return element.getAttribute(attribute);
     }
 }
